@@ -1,0 +1,12 @@
+.brand-logo{width:46px;height:46px;object-fit:contain;border-radius:50%;mix-blend-mode:multiply}
+.requirements{padding-left:1.3rem;color:var(--muted)}
+.requirements li{margin:.65rem 0}
+.constitution{display:grid;grid-template-columns:270px minmax(0,1fr);gap:55px;align-items:start}
+.constitution aside{position:sticky;top:105px}.constitution aside h2{font:700 30px var(--serif);margin-top:0}
+.constitution aside>a:not(.button){display:block;padding:11px 0;border-bottom:1px solid var(--line);font-size:13px}
+.constitution aside>a:not(.button) b{display:block}.constitution aside>a:not(.button) span{display:block;color:var(--muted);font-size:12px;line-height:1.3;margin-top:2px}
+.constitution .download{margin-top:22px}.constitution-body>article{padding:22px 0;border-bottom:1px solid var(--line);scroll-margin-top:110px}
+.constitution-body>article h2{font:700 29px var(--serif);margin:5px 0}.constitution-body>article>p:last-child{color:var(--muted)}
+.source-note{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:14px}.source-note svg{color:var(--orange);width:20px}
+.pdf-reader{margin-top:55px}.pdf-reader h2{font:700 32px var(--serif)}.pdf-reader object{width:100%;height:720px;border:1px solid var(--line);background:#eee}
+@media(max-width:760px){.constitution{grid-template-columns:1fr}.constitution aside{position:static}.pdf-reader object{height:550px}}

@@ -23,7 +23,8 @@ Copy `.env.example` to `.env` before adding any future integrations. No secrets 
 - Public routes for the approved sitemap, with data-driven officers, projects, committees and statistics
 - Responsive navigation, donation account copy action, accessible forms and 404 state
 - Accurate supplied history, outreach projects, contacts and donation details
-- Clear placeholder states for missing photos, event/news/gallery content and the Constitution source document
+- Official UCFCA logo and Constitution PDF, including browser reading, download and article navigation
+- Clear placeholder states for missing photos, event/news and gallery content
 
 ## Future roadmap
 
