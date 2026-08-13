@@ -17,3 +17,9 @@ export const committees = [
 ]
 
 export const stats = [{ value: '2023', label: 'Founded' }, { value: '6', label: 'Founding friends' }, { value: '50+', label: 'Registered members' }, { value: '~200', label: 'People fed' }]
+
+export const heroSlides = [
+  { image: '/assets/hero/club-gathering.jpg', alt: 'UCFCA members at a club gathering', title: 'Friends for Life' },
+  { image: '/assets/hero/ify-home-outreach.jpg', alt: 'UCFCA members at Ify Home for the Needy outreach', title: 'Love in action' },
+  { image: '/assets/hero/community-event.jpg', alt: 'UCFCA members at a community event', title: 'Integrity in every step' },
+]
