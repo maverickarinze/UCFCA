@@ -94,8 +94,8 @@
   background: #0000004a;
   color: #fff;
   border: 1px solid #ffffffa0;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   cursor: pointer;
   font-size: 18px;
@@ -129,11 +129,29 @@
   }
 }
 @media (max-width: 760px) {
+  /* Phones: copy sizes to its content, and the slide controls get their own
+     row beneath the buttons instead of floating over them. */
   .hero-copy {
-    min-height: 420px;
+    min-height: 0;
+    padding: 8px 0 76px;
+  }
+  .hero-copy h1 {
+    font-size: clamp(32px, 9.5vw, 44px);
+  }
+  .hero-copy .lead {
+    font-size: 18px;
+  }
+  .hero-copy .actions {
+    margin-top: 24px;
+  }
+  .hero-copy .actions .button {
+    flex: 1 1 100%;
+    justify-content: center;
   }
   .carousel-controls {
-    right: 24px;
+    right: var(--gutter);
+    left: var(--gutter);
     bottom: 20px;
+    justify-content: space-between;
   }
 }

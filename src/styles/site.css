@@ -57,6 +57,11 @@ nav a:hover {
   display: none;
   border: 0;
   background: none;
+  width: 44px;
+  height: 44px;
+  margin-right: -10px;
+  place-items: center;
+  cursor: pointer;
 }
 .hero {
   padding: var(--band-y) var(--gutter);
@@ -518,7 +523,9 @@ nav a:hover {
   background: none;
   border: 1px solid #e79a56;
   color: #fff;
-  padding: 6px 10px;
+  min-height: 40px;
+  padding: 6px 16px;
+  font: 600 14px var(--sans);
   cursor: pointer;
 }
 .empty {
@@ -591,12 +598,19 @@ nav a:hover {
 .value-list {
   overflow: hidden;
 }
+@media (max-width: 1080px) {
+  .stats div {
+    flex-direction: column;
+    gap: 0;
+    padding: 0 18px;
+  }
+}
 @media (max-width: 760px) {
   header {
     height: 68px;
   }
   .menu {
-    display: block;
+    display: grid;
   }
   .menu svg {
     width: 25px;
@@ -649,6 +663,10 @@ nav a:hover {
   }
   .avatar {
     height: 100px;
+  }
+  .form,
+  .bank {
+    padding: 22px;
   }
   .dark-cta {
     display: block;
