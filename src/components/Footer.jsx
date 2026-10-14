@@ -15,7 +15,7 @@ export default function Footer() {
         </p>
       </div>
       <div>
-        <h4>Explore</h4>
+        <h2>Explore</h2>
         <Link to="/about">About UCFCA</Link>
         <Link to="/projects">Our projects</Link>
         <Link to="/gallery">Gallery</Link>
@@ -23,7 +23,7 @@ export default function Footer() {
         <Link to="/constitution">Constitution</Link>
       </div>
       <div>
-        <h4>Contact</h4>
+        <h2>Contact</h2>
         <ContactLinks facebook />
       </div>
       <div className="copyright">

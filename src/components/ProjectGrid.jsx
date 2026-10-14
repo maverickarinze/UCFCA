@@ -4,20 +4,20 @@ import Icon from './Icon'
 import SectionTitle from './SectionTitle'
 import { projects } from '../data/content'
 
-// Full project list on /projects; a short preview on the home page when `limit` is set.
+// Full project list on /projects; a titled preview on the home page when `limit` is set.
 export default function ProjectGrid({ limit }) {
   const list = limit ? projects.slice(0, limit) : projects
   return (
     <section className="section projects">
-      <SectionTitle
-        eyebrow="Community impact"
-        title={limit ? 'Service in action.' : 'Our projects'}
-        text={
-          limit
-            ? 'Practical initiatives shaped by compassion and community needs.'
-            : 'Our current service focus areas. Project details are added as they become available.'
-        }
-      />
+      {limit ? (
+        <SectionTitle
+          eyebrow="Community impact"
+          title="Service in action."
+          text="Practical initiatives shaped by compassion and community needs."
+        />
+      ) : (
+        <h2 className="sr-only">All projects</h2>
+      )}
       <div className="project-grid">
         {list.map((p) => (
           <article className="project-card" key={p.slug}>

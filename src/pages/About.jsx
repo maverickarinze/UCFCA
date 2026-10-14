@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, HandHeart, Heart, ShieldCheck } from 'lucide-react'
 import PageHero from '../components/PageHero'
-import SectionTitle from '../components/SectionTitle'
 
 const values = [
   { icon: Heart, name: 'Love', text: 'We nurture genuine friendship and care for one another.' },
@@ -39,6 +38,12 @@ export default function About() {
           <Link className="text-link" to="/history">
             Explore our history <ArrowRight />
           </Link>
+          <h3 className="subheading">Major achievements</h3>
+          <ul className="check-list">
+            {achievements.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         </div>
         <div className="value-list">
           {values.map(({ icon: ValueIcon, name, text }) => (
@@ -48,14 +53,6 @@ export default function About() {
             </div>
           ))}
         </div>
-      </section>
-      <section className="section soft">
-        <SectionTitle eyebrow="Progress so far" title="Major achievements" />
-        <ul className="check-list">
-          {achievements.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
       </section>
     </>
   )

@@ -1,7 +1,7 @@
 footer {
   background: #171615;
   color: #d0cbc4;
-  padding: 65px max(7vw, 24px) 25px;
+  padding: var(--band-y) var(--gutter) 25px;
   display: grid;
   grid-template-columns: 2fr 1fr 1.4fr;
   gap: 40px;
@@ -9,12 +9,21 @@ footer {
 footer .light {
   color: #fff;
 }
+footer .brand small {
+  color: #a8a29a;
+}
+/* The logo is a JPEG on white; multiply blending (used on the light header) blacks it out here. */
+footer .brand-logo {
+  mix-blend-mode: normal;
+  background: #fff;
+}
 footer p {
   max-width: 350px;
 }
-footer h4 {
+footer h2 {
   color: #f4a35a;
   margin: 0 0 14px;
+  font-weight: bold;
   text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 0.1em;
@@ -41,7 +50,7 @@ footer a:hover {
 @media (max-width: 760px) {
   footer {
     grid-template-columns: 1fr;
-    padding-block: 50px;
+    padding-top: 40px;
   }
   .copyright span {
     float: none;

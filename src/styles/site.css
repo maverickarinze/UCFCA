@@ -47,11 +47,11 @@ nav a {
 }
 nav a.active,
 nav a:hover {
-  color: var(--orange);
+  color: var(--orange-ink);
 }
 .nav-donate,
 .button {
-  background: var(--orange);
+  background: var(--orange-ink);
   color: white !important;
   padding: 11px 17px;
   border-radius: 3px;
@@ -62,8 +62,7 @@ nav a:hover {
   background: none;
 }
 .hero {
-  min-height: 630px;
-  padding: 80px max(7vw, 24px);
+  padding: var(--band-y) var(--gutter);
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   align-items: center;
@@ -72,7 +71,7 @@ nav a:hover {
 }
 .eyebrow,
 .section-title > span {
-  color: var(--orange);
+  color: var(--orange-ink);
   font-size: 12px;
   font-weight: bold;
   text-transform: uppercase;
@@ -109,8 +108,9 @@ nav a:hover {
   gap: 9px;
   cursor: pointer;
 }
-.button:hover {
-  background: #c95808;
+.button:hover,
+.nav-donate:hover {
+  background: var(--orange-ink-hover);
 }
 .button.ghost {
   background: transparent;
@@ -121,7 +121,7 @@ nav a:hover {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   padding: 35px max(7vw, 24px);
-  background: var(--orange);
+  background: var(--orange-ink);
   color: #fff;
 }
 .stats div {
@@ -144,15 +144,20 @@ nav a:hover {
   letter-spacing: 0.09em;
 }
 .section {
-  padding: 100px max(7vw, 24px);
+  padding: var(--section-y) var(--gutter);
   position: relative;
+}
+/* Consecutive sections on the same background share one gap instead of two. */
+.section:not(.soft) + .section:not(.soft),
+.section.soft + .section.soft {
+  padding-top: 0;
 }
 .section.soft {
   background: #f2eee8;
 }
 .section-title {
   max-width: 680px;
-  margin-bottom: 42px;
+  margin-bottom: 28px;
 }
 .section-title h2,
 .split h2,
@@ -170,18 +175,23 @@ nav a:hover {
 }
 .text-link {
   font-weight: 700;
-  color: var(--orange);
+  color: var(--orange-ink);
   display: inline-flex;
   gap: 8px;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 22px;
 }
 .split {
-  padding: 110px max(7vw, 24px);
+  padding: var(--section-y) var(--gutter);
   display: grid;
   grid-template-columns: 0.75fr 1.25fr;
-  gap: 10%;
+  gap: 6%;
   background: #fff;
+}
+.split .intro {
+  color: var(--muted);
+  margin: 0;
+  max-width: 420px;
 }
 .split blockquote {
   margin: 0;
@@ -194,7 +204,7 @@ nav a:hover {
   font: 600 14px var(--sans);
   letter-spacing: 0.05em;
   font-style: normal;
-  color: var(--orange);
+  color: var(--orange-ink);
   text-transform: uppercase;
 }
 .split cite span {
@@ -212,8 +222,7 @@ nav a:hover {
 .project-card {
   background: #fff;
   border: 1px solid var(--line);
-  padding: 28px;
-  min-height: 280px;
+  padding: 26px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -231,7 +240,7 @@ nav a:hover {
   border-radius: 50%;
   background: #fff0e1;
   color: var(--orange);
-  margin-bottom: 25px;
+  margin-bottom: 18px;
 }
 .project-card > span {
   font-size: 11px;
@@ -249,7 +258,7 @@ nav a:hover {
 }
 .project-card a {
   margin-top: auto;
-  color: var(--orange);
+  color: var(--orange-ink);
   font-weight: bold;
   font-size: 14px;
   display: flex;
@@ -258,7 +267,7 @@ nav a:hover {
 .dark-cta {
   background: #1b1917;
   color: #fff;
-  padding: 70px max(7vw, 24px);
+  padding: var(--band-y) var(--gutter);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -281,7 +290,7 @@ nav a:hover {
   color: #fff;
 }
 .avatar {
-  height: 170px;
+  height: 120px;
   background: #eee9e2;
   display: grid;
   place-items: center;
@@ -295,8 +304,11 @@ nav a:hover {
   width: 44px;
   height: 44px;
 }
+.leader.featured p {
+  color: var(--orange-on-dark);
+}
 .leader p {
-  color: var(--orange);
+  color: var(--orange-ink);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -307,18 +319,23 @@ nav a:hover {
   margin: 0;
 }
 .page-hero {
-  padding: 110px max(7vw, 24px) 85px;
+  padding: var(--section-y) var(--gutter) var(--band-y);
   background: #201e1c;
   color: #fff;
 }
-.page-hero .eyebrow {
-  color: #f8a45c;
+.page-hero .eyebrow,
+.dark-cta .eyebrow {
+  color: var(--orange-on-dark);
 }
-.page-hero h1 {
-  margin-bottom: 12px;
+.page-hero h1,
+.notfound h1 {
+  font-size: clamp(36px, 4.6vw, 60px);
+  margin: 10px 0 12px;
+  max-width: 900px;
 }
 .page-hero > p:last-child {
-  max-width: 600px;
+  max-width: 720px;
+  margin-bottom: 0;
   color: #d6cfca;
   font-size: 18px;
 }
@@ -359,6 +376,15 @@ nav a:hover {
   font-size: 15px !important;
   margin: 0;
 }
+.subheading {
+  font: 700 24px var(--serif);
+  margin: 36px 0 8px;
+}
+.two-col .check-list {
+  font-size: 16px;
+  line-height: 1.9;
+  margin: 0;
+}
 .check-list {
   list-style: '✓  ';
   padding-left: 22px;
@@ -374,7 +400,7 @@ nav a:hover {
 }
 .prose h2 {
   font: 700 32px var(--serif);
-  margin-top: 45px;
+  margin: 32px 0 12px;
 }
 .prose li {
   margin: 0.5em 0;
@@ -468,7 +494,7 @@ nav a:hover {
   padding: 32px;
 }
 .bank > span,
-.bank p {
+.two-col .bank > p {
   color: #f3b981;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -499,7 +525,7 @@ nav a:hover {
 .empty {
   background: #fff;
   text-align: center;
-  padding: 55px 25px;
+  padding: 36px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -519,7 +545,7 @@ nav a:hover {
   color: var(--muted);
 }
 .empty a {
-  color: var(--orange);
+  color: var(--orange-ink);
   font-weight: bold;
 }
 .faq {
@@ -538,8 +564,8 @@ nav a:hover {
   color: var(--muted);
 }
 .notfound {
-  min-height: 60vh;
-  padding: 130px max(7vw, 24px);
+  min-height: 50vh;
+  padding: clamp(64px, 10vw, 110px) var(--gutter);
 }
 @media (max-width: 760px) {
   header {
@@ -567,9 +593,7 @@ nav a:hover {
   }
   .hero {
     grid-template-columns: 1fr;
-    padding-top: 55px;
     gap: 35px;
-    min-height: auto;
   }
   .stats {
     grid-template-columns: repeat(2, 1fr);
@@ -586,8 +610,7 @@ nav a:hover {
   .two-col,
   .project-detail {
     grid-template-columns: 1fr;
-    gap: 35px;
-    padding-block: 70px;
+    gap: 28px;
   }
   .project-grid,
   .leaders,
@@ -599,23 +622,13 @@ nav a:hover {
     grid-template-columns: repeat(2, 1fr);
   }
   .avatar {
-    height: 140px;
-  }
-  .section {
-    padding-block: 70px;
+    height: 100px;
   }
   .dark-cta {
     display: block;
-    padding-block: 55px;
   }
   .dark-cta .button {
     margin-top: 20px;
-  }
-  .page-hero {
-    padding-block: 75px;
-  }
-  .page-hero h1 {
-    font-size: 47px;
   }
   .project-icon.big {
     width: 120px;
@@ -623,8 +636,5 @@ nav a:hover {
   }
   .project-detail dl {
     grid-template-columns: 100px 1fr;
-  }
-  .prose {
-    padding-block: 60px;
   }
 }

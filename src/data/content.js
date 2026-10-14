@@ -116,17 +116,17 @@ export const stats = [
 
 export const heroSlides = [
   {
-    image: '/assets/hero/club-gathering.jpg',
+    image: '/assets/hero/club-gathering.webp',
     alt: 'UCFCA members at a club gathering',
     title: 'Friends for Life',
   },
   {
-    image: '/assets/hero/ify-home-outreach.jpg',
+    image: '/assets/hero/ify-home-outreach.webp',
     alt: 'UCFCA members at Ify Home for the Needy outreach',
     title: 'Love in action',
   },
   {
-    image: '/assets/hero/community-event.jpg',
+    image: '/assets/hero/community-event.webp',
     alt: 'UCFCA members at a community event',
     title: 'Integrity in every step',
   },

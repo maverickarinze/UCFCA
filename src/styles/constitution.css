@@ -1,7 +1,7 @@
 .constitution {
   display: grid;
   grid-template-columns: 270px minmax(0, 1fr);
-  gap: 55px;
+  gap: 48px;
   align-items: start;
 }
 .constitution aside {
@@ -32,7 +32,7 @@
   margin-top: 22px;
 }
 .constitution-body > article {
-  padding: 22px 0;
+  padding: 16px 0;
   border-bottom: 1px solid var(--line);
   scroll-margin-top: 110px;
 }
@@ -42,6 +42,20 @@
 }
 .constitution-body > article > p:last-child {
   color: var(--muted);
+}
+.constitution-body > article.compact {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 12px 0;
+}
+.constitution-body > article.compact .eyebrow {
+  flex: 0 0 90px;
+  margin: 0;
+}
+.constitution-body > article.compact h2 {
+  font-size: 21px;
+  margin: 0;
 }
 .source-note {
   display: flex;
@@ -55,7 +69,7 @@
   width: 20px;
 }
 .pdf-reader {
-  margin-top: 55px;
+  margin-top: 36px;
 }
 .pdf-reader h2 {
   font: 700 32px var(--serif);

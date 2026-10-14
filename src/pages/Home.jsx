@@ -26,6 +26,13 @@ export default function Home() {
         <div>
           <p className="eyebrow">A message from the President</p>
           <h2>Welcome to our community.</h2>
+          <p className="intro">
+            UCFCA brings people together in mutual respect, friendship and practical service to
+            society.
+          </p>
+          <Link className="text-link" to="/history">
+            Read our story <ArrowRight />
+          </Link>
         </div>
         <blockquote>
           “Our club is built on the enduring values of Love, Integrity, and Service. True friendship
@@ -35,16 +42,6 @@ export default function Home() {
             Peter Iboro <span>President, UCFCA</span>
           </cite>
         </blockquote>
-      </section>
-      <section className="section">
-        <SectionTitle
-          eyebrow="Who we are"
-          title="A circle of friends with a wider purpose."
-          text="UCFCA brings people together in mutual respect, friendship and practical service to society."
-        />
-        <Link className="text-link" to="/history">
-          Read our story <ArrowRight />
-        </Link>
       </section>
       <ProjectGrid limit={3} />
       <section className="dark-cta">

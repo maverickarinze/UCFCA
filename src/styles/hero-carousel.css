@@ -7,7 +7,7 @@
 .hero-copy {
   position: relative;
   z-index: 2;
-  min-height: 470px;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -130,7 +130,7 @@
 }
 @media (max-width: 760px) {
   .hero-copy {
-    min-height: 490px;
+    min-height: 420px;
   }
   .carousel-controls {
     right: 24px;

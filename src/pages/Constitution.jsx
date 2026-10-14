@@ -25,21 +25,23 @@ export default function Constitution() {
         </aside>
         <div className="constitution-body">
           <p className="source-note">
-            <FileText /> Official source document: UCFCA Constitution/Bylaw (14 pages)
+            <FileText /> Official source document: UCFCA Constitution/Bylaw (14 pages). Full
+            provisions for every Article are in the PDF below.
           </p>
           {constitutionArticles.map(({ id, title, heading, summary }) => (
-            <article id={id} key={id}>
+            <article id={id} key={id} className={summary ? undefined : 'compact'}>
               <p className="eyebrow">{title}</p>
               <h2>{heading}</h2>
-              <p>
-                {summary ??
-                  'Refer to the original Constitution PDF below for the complete approved provisions of this Article.'}
-              </p>
+              {summary && <p>{summary}</p>}
             </article>
           ))}
           <div className="pdf-reader">
             <h2>Read the full Constitution</h2>
-            <object data={constitutionPdf + '#view=FitH'} type="application/pdf">
+            <object
+              data={constitutionPdf + '#view=FitH'}
+              type="application/pdf"
+              title="UCFCA Constitution (PDF)"
+            >
               <p>
                 Your browser cannot display the PDF.{' '}
                 <a href={constitutionPdf} download>

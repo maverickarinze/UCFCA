@@ -16,7 +16,7 @@ export default function Header() {
         Skip to content
       </a>
       <header>
-        <Link className="brand" to="/" aria-label="UCFCA home">
+        <Link className="brand" to="/">
           <Brand />
         </Link>
         <button

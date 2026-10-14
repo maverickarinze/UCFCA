@@ -11,6 +11,7 @@ export default function Executives() {
         text="Officer photographs and biographies will appear here when supplied."
       />
       <section className="section">
+        <h2 className="sr-only">Executive Council members</h2>
         <div className="leaders all">
           {executives.map((e, i) => (
             <LeaderCard key={e.position} {...e} featured={i === 0} />

@@ -54,7 +54,12 @@ export default function HeroCarousel() {
               aria-hidden={index !== active}
               key={slide.image}
             >
-              <img src={slide.image} alt={index === active ? slide.alt : ''} />
+              <img
+                src={slide.image}
+                alt={index === active ? slide.alt : ''}
+                fetchPriority={index === 0 ? 'high' : 'low'}
+                decoding="async"
+              />
             </div>
           ))}
         </div>
