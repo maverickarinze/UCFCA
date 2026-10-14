@@ -1,12 +1,16 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight, CalendarDays } from 'lucide-react'
+import EmptyState from '../components/EmptyState'
+import EventCard from '../components/EventCard'
 import HeroCarousel from '../components/HeroCarousel'
 import LeaderCard from '../components/LeaderCard'
 import ProjectGrid from '../components/ProjectGrid'
 import SectionTitle from '../components/SectionTitle'
-import { executives, stats } from '../data/content'
+import { events, executives, stats } from '../data/content'
+import { splitEvents } from '../utils/dates'
 
 export default function Home() {
+  const nextEvent = splitEvents(events).upcoming[0]
   return (
     <>
       <HeroCarousel />
@@ -69,11 +73,19 @@ export default function Home() {
           title="Join the next chapter."
           text="Upcoming events and news will be shared here as they are announced."
         />
-        <div className="empty">
-          <CalendarDays />
-          <p>No upcoming events have been announced yet.</p>
-          <Link to="/events">Visit events</Link>
-        </div>
+        {nextEvent ? (
+          <>
+            <EventCard {...nextEvent} />
+            <Link className="text-link" to="/events">
+              See all events <ArrowRight />
+            </Link>
+          </>
+        ) : (
+          <EmptyState icon={CalendarDays}>
+            <p>No upcoming events have been announced yet.</p>
+            <Link to="/events">Visit events</Link>
+          </EmptyState>
+        )}
       </section>
     </>
   )

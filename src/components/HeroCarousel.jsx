@@ -1,24 +1,51 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import { heroSlides } from '../data/content'
 
 const SLIDE_INTERVAL_MS = 5500
+const SWIPE_THRESHOLD_PX = 40
+
+const prefersReducedMotion = () =>
+  window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 
 export default function HeroCarousel() {
   const [active, setActive] = useState(0)
+  const [paused, setPaused] = useState(false)
+  const touchStartX = useRef(null)
   const count = heroSlides.length
 
+  const go = (index) => setActive((index + count) % count)
+
   useEffect(() => {
+    if (paused || prefersReducedMotion()) return
     const timer = window.setInterval(
       () => setActive((current) => (current + 1) % count),
       SLIDE_INTERVAL_MS,
     )
     return () => window.clearInterval(timer)
-  }, [count])
+  }, [paused, count])
+
+  const onTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+  const onTouchEnd = (e) => {
+    if (touchStartX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    touchStartX.current = null
+    if (Math.abs(dx) > SWIPE_THRESHOLD_PX) go(dx < 0 ? active + 1 : active - 1)
+  }
 
   return (
-    <section className="hero">
+    <section
+      className="hero"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setPaused(false)}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
       <div className="hero-carousel" aria-roledescription="carousel" aria-label="UCFCA highlights">
         <div className="carousel-slides">
           {heroSlides.map((slide, index) => (
@@ -32,10 +59,7 @@ export default function HeroCarousel() {
           ))}
         </div>
         <div className="carousel-controls">
-          <button
-            aria-label="Previous slide"
-            onClick={() => setActive((active + count - 1) % count)}
-          >
+          <button aria-label="Previous slide" onClick={() => go(active - 1)}>
             ←
           </button>
           <div className="carousel-dots">
@@ -44,12 +68,12 @@ export default function HeroCarousel() {
                 aria-label={'Show ' + slide.title}
                 aria-current={index === active}
                 className={index === active ? 'active' : ''}
-                onClick={() => setActive(index)}
+                onClick={() => go(index)}
                 key={slide.image}
               />
             ))}
           </div>
-          <button aria-label="Next slide" onClick={() => setActive((active + 1) % count)}>
+          <button aria-label="Next slide" onClick={() => go(active + 1)}>
             →
           </button>
         </div>

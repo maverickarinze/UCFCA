@@ -18,6 +18,7 @@ export default function Footer() {
         <h4>Explore</h4>
         <Link to="/about">About UCFCA</Link>
         <Link to="/projects">Our projects</Link>
+        <Link to="/gallery">Gallery</Link>
         <Link to="/membership">Membership</Link>
         <Link to="/constitution">Constitution</Link>
       </div>

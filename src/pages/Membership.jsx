@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
-import InterestForm from '../components/InterestForm'
+import Form from '../components/Form'
 import PageHero from '../components/PageHero'
 import SectionTitle from '../components/SectionTitle'
 
@@ -21,7 +21,7 @@ const faqs = [
   ],
   [
     'Does submitting this form make me a member?',
-    'No. This is an expression-of-interest form structure for future processing.',
+    'No. It lets the Executive know you are interested so they can guide you through the conditions for membership listed above.',
   ],
 ]
 
@@ -51,9 +51,17 @@ export default function Membership() {
             Read the Constitution <ArrowRight />
           </Link>
         </div>
-        <InterestForm
+        <Form
           title="Membership interest"
-          fields={['Full name', 'Email address', 'Phone number', 'Message']}
+          subject="Membership interest"
+          submitLabel="Send interest"
+          successMessage="Thank you for your interest in UCFCA. A member of the Executive will be in touch."
+          fields={[
+            { name: 'name', label: 'Full name', autoComplete: 'name' },
+            { name: 'email', label: 'Email address', type: 'email', autoComplete: 'email' },
+            { name: 'phone', label: 'Phone number', type: 'tel', autoComplete: 'tel' },
+            { name: 'message', label: 'Message', type: 'textarea' },
+          ]}
         />
       </section>
       <section className="section soft">

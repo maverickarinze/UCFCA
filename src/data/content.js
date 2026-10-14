@@ -162,3 +162,31 @@ export const constitutionArticles = [
   { id: 'article-9', title: 'Article 9', heading: 'Life benefits' },
   { id: 'article-10', title: 'Article 10', heading: 'Amendments and membership oath' },
 ]
+
+export const meetings = 'General meetings hold on the first Sunday of every month.'
+
+// Add events here; they sort themselves into upcoming and past by date.
+// {
+//   title: 'End of Year Get-Together',
+//   date: '2026-12-06',            // YYYY-MM-DD
+//   time: '2:00 PM',               // optional
+//   location: 'Oasis Hotels, Abuja',
+//   description: 'One or two sentences about the event.',
+// }
+export const events = []
+
+// Add announcements here, newest anywhere — they are sorted by date.
+// {
+//   title: 'New Executive Council inaugurated',
+//   date: '2026-10-01',
+//   body: ['First paragraph.', 'Second paragraph.'],
+// }
+export const news = []
+
+// Add albums here. Put photos in public/assets/gallery/ and reference them from '/assets/gallery/...'.
+// {
+//   title: 'Ify Home outreach',
+//   date: '2024-02-25',
+//   photos: [{ src: '/assets/gallery/ify-home-1.jpg', alt: 'Members handing out gifts' }],
+// }
+export const gallery = []

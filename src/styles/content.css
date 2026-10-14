@@ -1,0 +1,136 @@
+/* Forms */
+.form .optional {
+  font-weight: 400;
+  color: var(--muted);
+}
+.form .botcheck {
+  display: none;
+}
+.form button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+.form-status {
+  font-size: 14px;
+  margin: 12px 0 0;
+}
+.form-status.error {
+  color: #a8321c;
+}
+.form-status a {
+  text-decoration: underline;
+}
+.copy-status {
+  min-height: 1em;
+  margin-top: 10px;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+/* Contact */
+.contact-info > div {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin: 18px 0;
+}
+.contact-info svg {
+  color: var(--orange);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.contact-info span a {
+  display: block;
+}
+.contact-info p {
+  margin: 0;
+}
+
+/* Events */
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+.event-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--orange);
+  padding: 26px;
+  text-align: left;
+}
+.event-card h3 {
+  font: 700 24px/1.2 var(--serif);
+  margin: 0 0 12px;
+}
+.event-meta {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.event-meta li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.event-meta svg {
+  width: 16px;
+  height: 16px;
+  color: var(--orange);
+}
+.event-card p {
+  margin: 0;
+}
+
+/* News */
+.news-list {
+  max-width: 760px;
+}
+.news-list article {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+.news-list time,
+.album time {
+  color: var(--orange);
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.news-list h2,
+.album h2 {
+  font: 700 32px/1.15 var(--serif);
+  margin: 6px 0 10px;
+}
+
+/* Gallery */
+.album + .album {
+  margin-top: 60px;
+}
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+.photo-grid img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.2s;
+}
+.photo-grid a:hover img {
+  opacity: 0.85;
+}
+
+@media (max-width: 760px) {
+  .card-list {
+    grid-template-columns: 1fr;
+  }
+}

@@ -18,7 +18,36 @@ pnpm lint          # ESLint
 pnpm format        # Prettier
 ```
 
-Copy `.env.example` to `.env` before adding any future integrations. No secrets are required for the current public-site build.
+Copy `.env.example` to `.env` and fill in `VITE_WEB3FORMS_KEY` to make the forms send email (see below).
+Without it the site still runs; forms show a message asking people to email the club instead.
+
+## Forms (Web3Forms)
+
+The membership, payment-confirmation and contact forms post to [Web3Forms](https://web3forms.com),
+which emails each submission to the club inbox.
+
+1. Go to web3forms.com, enter `ultimatefriendsabj@gmail.com` and confirm the email it sends.
+2. Copy the access key into `.env` locally, and into Netlify under
+   **Site configuration → Environment variables** as `VITE_WEB3FORMS_KEY`.
+3. Redeploy. The key is public by design (it can only send to that inbox).
+
+## Deploying (Netlify)
+
+`netlify.toml` holds the build settings and the redirect that lets React Router handle every URL.
+Connect the GitHub repo in Netlify, add the environment variable above, and deploy. A custom domain
+can be attached under **Domain management**.
+
+## Updating content
+
+Everything editable lives in `src/data/content.js`:
+
+- **Events** — add to `events`; they sort into upcoming/past by date automatically, and the next
+  upcoming one appears on the home page.
+- **News** — add to `news`; newest shows first.
+- **Gallery** — put photos in `public/assets/gallery/` and add an album to `gallery`.
+- Officers, committees, projects, contact and bank details are in the same file.
+
+Each list has a commented example showing the fields to fill in.
 
 ## Project structure
 
@@ -37,11 +66,11 @@ Most content updates (officers, projects, contact details) only need edits to `s
 ## Included
 
 - Public routes for the approved sitemap, with data-driven officers, projects, committees and statistics
-- Responsive navigation, donation account copy action, accessible forms and 404 state
+- Responsive navigation, donation account copy action, forms delivered by Web3Forms and 404 state
+- Data-driven events, news and gallery pages with empty states
 - Accurate supplied history, outreach projects, contacts and donation details
 - Official UCFCA logo and Constitution PDF, including browser reading, download and article navigation
-- Clear placeholder states for missing photos, event/news and gallery content
 
 ## Future roadmap
 
-Add real UCFCA photography, a backend (Firebase or Supabase), authenticated admin dashboard, form delivery, content management and member features.
+Add real UCFCA photography, a backend (Firebase or Supabase), authenticated admin dashboard, content management and member features.
