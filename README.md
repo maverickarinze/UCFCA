@@ -12,11 +12,27 @@ Use Node 20+ and pnpm or npm:
 
 ```bash
 pnpm install
-pnpm dev
-pnpm build
+pnpm dev           # local dev server
+pnpm build         # production build in dist/
+pnpm lint          # ESLint
+pnpm format        # Prettier
 ```
 
 Copy `.env.example` to `.env` before adding any future integrations. No secrets are required for the current public-site build.
+
+## Project structure
+
+```
+src/
+  App.jsx          routes
+  components/      shared UI (header, footer, carousel, cards, forms)
+  pages/           one file per page
+  data/content.js  site content: projects, officers, committees, contacts, bank details
+  styles/          CSS, imported in order from styles/index.css
+public/assets/     logo, hero photos, Constitution PDF
+```
+
+Most content updates (officers, projects, contact details) only need edits to `src/data/content.js`.
 
 ## Included
 
@@ -28,4 +44,4 @@ Copy `.env.example` to `.env` before adding any future integrations. No secrets 
 
 ## Future roadmap
 
-Add the approved Constitution PDF, real UCFCA photography, a backend (Firebase or Supabase), authenticated admin dashboard, form delivery, content management and member features.
+Add real UCFCA photography, a backend (Firebase or Supabase), authenticated admin dashboard, form delivery, content management and member features.
