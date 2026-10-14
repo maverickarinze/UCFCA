@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import Icon from '../components/Icon'
 import PageHero from '../components/PageHero'
 import { projects } from '../data/content'
+import { formatDate } from '../utils/dates'
 import NotFound from './NotFound'
 import usePageMeta from '../utils/usePageMeta'
 
@@ -27,10 +28,16 @@ export default function ProjectDetail() {
           <dl>
             <dt>Location</dt>
             <dd>{p.location}</dd>
+            {p.date && (
+              <>
+                <dt>Date</dt>
+                <dd>{formatDate(p.date)}</dd>
+              </>
+            )}
             <dt>Impact</dt>
             <dd>{p.impact}</dd>
             <dt>Status</dt>
-            <dd>{p.historical ? 'Historical UCFCA project' : 'More details coming soon'}</dd>
+            <dd>{p.historical ? 'Completed outreach' : 'More details coming soon'}</dd>
           </dl>
           <p>
             Project dates, objectives, gallery items and related events will be published as

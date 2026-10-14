@@ -21,6 +21,10 @@ const earlyActivities = [
   ],
   ['Medical Outreach', 'held at Kabayi, Sharp Corner, Mararaba.'],
   ['School Outreach', 'held at Government Secondary School, Bakin-Ado, Nasarawa.'],
+  [
+    'Hospital Visitation',
+    'at Nyanya General Hospital, Abuja, in September 2026, hampers of essential items were gifted to women in the maternity wards, and medication was paid for every infant admitted to the neonatal ward.',
+  ],
 ]
 
 export default function History() {
@@ -50,10 +54,11 @@ export default function History() {
         </p>
         <p>
           From six members, the Association has grown to more than 50 registered card-carrying
-          members. Its slogan, Friends for Life, expresses a commitment to friendship among members
-          and service to less privileged people in society.
+          members, and its outreaches have impacted the lives of more than 1,500 people. Its slogan,
+          Friends for Life, expresses a commitment to friendship among members and service to less
+          privileged people in society.
         </p>
-        <h2>Early community activities</h2>
+        <h2>Community outreaches</h2>
         <ul>
           {earlyActivities.map(([name, text]) => (
             <li key={name}>

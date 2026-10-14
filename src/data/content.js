@@ -63,10 +63,12 @@ export const projects = [
     slug: 'hospital-visits',
     name: 'Hospital Visits',
     icon: 'Cross',
-    description: 'A planned stream of compassionate support for people receiving care.',
-    location: 'Location to be announced',
-    impact: 'Project information pending.',
-    historical: false,
+    description: 'Compassionate support for mothers and newborns receiving hospital care.',
+    location: 'Nyanya General Hospital, Abuja',
+    date: '2026-09-19',
+    impact:
+      'Hampers of essential items gifted to women in the maternity wards, and medication paid for every infant admitted to the neonatal ward.',
+    historical: true,
   },
   {
     slug: 'sanitation-exercise',
@@ -117,10 +119,10 @@ export const committees = [
 ]
 
 export const stats = [
-  { value: '2023', label: 'Founded' },
-  { value: '6', label: 'Founding friends' },
+  { value: '1,500+', label: 'Lives impacted' },
+  { value: '5', label: 'Community outreaches' },
   { value: '50+', label: 'Registered members' },
-  { value: '~200', label: 'People fed' },
+  { value: 'CAC', label: 'Registered' },
 ]
 
 export const heroSlides = [
@@ -175,14 +177,38 @@ export const constitutionArticles = [
 export const meetings = 'General meetings hold on the first Sunday of every month.'
 
 // Add events here; they sort themselves into upcoming and past by date.
+// For a tentative event, set `date` to the last day it could happen (so it stays
+// under "Upcoming" until then) and describe the timing in `when`.
 // {
 //   title: 'End of Year Get-Together',
 //   date: '2026-12-06',            // YYYY-MM-DD
+//   when: 'December 2026 · date to be confirmed',  // optional: shown instead of the exact date
 //   time: '2:00 PM',               // optional
 //   location: 'Oasis Hotels, Abuja',
 //   description: 'One or two sentences about the event.',
 // }
-export const events = []
+export const events = [
+  {
+    title: 'Annual End of the Year Celebration',
+    date: '2026-12-31',
+    when: 'December 2026 · date to be confirmed',
+    description:
+      'Our yearly celebration closing out the year together. Date and venue to be announced.',
+  },
+  {
+    title: 'Prison Visitation',
+    date: '2027-03-31',
+    when: 'January–March 2027 · date to be confirmed',
+    description: 'A planned outreach visit. Date and location to be announced.',
+  },
+  {
+    title: 'Hospital Visitation',
+    date: '2026-09-19',
+    location: 'Nyanya General Hospital, Abuja',
+    description:
+      'Hampers of essential items for women in the maternity wards, and medication paid for every infant admitted to the neonatal ward.',
+  },
+]
 
 // Add announcements here, newest anywhere — they are sorted by date.
 // {
