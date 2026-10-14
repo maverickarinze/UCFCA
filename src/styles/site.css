@@ -314,6 +314,12 @@ nav a:hover {
   letter-spacing: 0.1em;
   margin: 16px 0 4px;
 }
+.leader-role {
+  display: block;
+  margin-top: 2px;
+  font-size: 14px;
+  color: var(--muted);
+}
 .leader h3 {
   font: 700 21px var(--serif);
   margin: 0;

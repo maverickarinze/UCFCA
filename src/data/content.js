@@ -97,14 +97,7 @@ export const executives = [
 
 export const committees = [
   {
-    name: 'Events & Social Media Committee',
-    chair: 'Stanley Agbo',
-    chairTitle: 'Chairman',
-    responsibility:
-      'Planning, mobilizing and activating Association events and projects, including media coverage.',
-  },
-  {
-    name: 'Investment & Empowerment Committee',
+    name: 'Investment Committee',
     chair: 'Chigozie Chiemezie',
     chairTitle: 'Chairman',
     responsibility: 'Developing business plans and strategies that benefit members.',
@@ -115,6 +108,13 @@ export const committees = [
     chairTitle: 'Chairperson',
     responsibility:
       'Educating members on health trends, risks and healthy living, and planning medical outreach.',
+  },
+  {
+    name: 'Project/Media Committee',
+    chair: 'Stanley Agbo',
+    chairTitle: 'Chairman',
+    responsibility:
+      'Planning, mobilizing and activating Association events and projects, including media coverage.',
   },
 ]
 

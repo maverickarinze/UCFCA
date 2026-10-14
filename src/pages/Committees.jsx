@@ -4,10 +4,7 @@ import { committees } from '../data/content'
 import usePageMeta from '../utils/usePageMeta'
 
 export default function Committees() {
-  usePageMeta(
-    'Committees',
-    'The UCFCA standing committees: Events & Social Media, Investment & Empowerment, and Health.',
-  )
+  usePageMeta('Committees', 'The UCFCA standing committees: Investment, Health, and Project/Media.')
   return (
     <>
       <PageHero eyebrow="How we work" title="Standing committees." />
