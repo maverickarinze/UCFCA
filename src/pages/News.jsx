@@ -3,8 +3,10 @@ import EmptyState from '../components/EmptyState'
 import PageHero from '../components/PageHero'
 import { news } from '../data/content'
 import { formatDate, newestFirst } from '../utils/dates'
+import usePageMeta from '../utils/usePageMeta'
 
 export default function News() {
+  usePageMeta('News', 'News and announcements from UCFCA.')
   const items = newestFirst(news)
   return (
     <>

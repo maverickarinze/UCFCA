@@ -32,8 +32,6 @@ header {
   width: 46px;
   height: 46px;
   object-fit: contain;
-  border-radius: 50%;
-  mix-blend-mode: multiply;
 }
 nav {
   display: flex;

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Form from '../components/Form'
 import PageHero from '../components/PageHero'
 import { bank } from '../data/content'
+import usePageMeta from '../utils/usePageMeta'
 
 async function copyText(text) {
   try {
@@ -23,6 +24,7 @@ async function copyText(text) {
 }
 
 export default function Donate() {
+  usePageMeta('Support UCFCA', 'Support UCFCA’s community work by direct bank transfer.')
   const [copyState, setCopyState] = useState('idle') // idle | copied | failed
   const copy = async () => {
     setCopyState((await copyText(bank.accountNumber)) ? 'copied' : 'failed')

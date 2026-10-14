@@ -4,8 +4,10 @@ import PageHero from '../components/PageHero'
 import SectionTitle from '../components/SectionTitle'
 import { events, meetings } from '../data/content'
 import { splitEvents } from '../utils/dates'
+import usePageMeta from '../utils/usePageMeta'
 
 export default function Events() {
+  usePageMeta('Events', 'Upcoming and past UCFCA events and monthly general meetings.')
   const { upcoming, past } = splitEvents(events)
   return (
     <>

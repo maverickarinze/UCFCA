@@ -3,8 +3,10 @@ import EmptyState from '../components/EmptyState'
 import PageHero from '../components/PageHero'
 import { gallery } from '../data/content'
 import { formatDate, newestFirst } from '../utils/dates'
+import usePageMeta from '../utils/usePageMeta'
 
 export default function Gallery() {
+  usePageMeta('Gallery', 'Photos from UCFCA gatherings and community outreach.')
   const albums = newestFirst(gallery)
   return (
     <>

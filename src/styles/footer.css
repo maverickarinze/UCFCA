@@ -12,11 +12,6 @@ footer .light {
 footer .brand small {
   color: #a8a29a;
 }
-/* The logo is a JPEG on white; multiply blending (used on the light header) blacks it out here. */
-footer .brand-logo {
-  mix-blend-mode: normal;
-  background: #fff;
-}
 footer p {
   max-width: 350px;
 }

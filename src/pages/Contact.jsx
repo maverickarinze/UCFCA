@@ -2,8 +2,13 @@ import { CalendarDays, Mail, Phone } from 'lucide-react'
 import Form from '../components/Form'
 import PageHero from '../components/PageHero'
 import { contact, meetings } from '../data/content'
+import usePageMeta from '../utils/usePageMeta'
 
 export default function Contact() {
+  usePageMeta(
+    'Contact',
+    'Get in touch with Ultimate Clique of Friends Club Abuja by email, phone or message.',
+  )
   return (
     <>
       <PageHero

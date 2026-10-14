@@ -1,8 +1,10 @@
 import { ArrowUpRight, FileText } from 'lucide-react'
 import PageHero from '../components/PageHero'
 import { constitutionArticles, constitutionPdf } from '../data/content'
+import usePageMeta from '../utils/usePageMeta'
 
 export default function Constitution() {
+  usePageMeta('Constitution', 'Read or download the official UCFCA Constitution/Bylaw.')
   return (
     <>
       <PageHero

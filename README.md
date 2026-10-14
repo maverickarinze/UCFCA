@@ -37,6 +37,10 @@ which emails each submission to the club inbox.
 Connect the GitHub repo in Netlify, add the environment variable above, and deploy. A custom domain
 can be attached under **Domain management**.
 
+The site address (`https://ucfca.netlify.app`) is set once in `vite.config.js` and used for link
+previews, `sitemap.xml` and `robots.txt`, which are generated on each build. If the address changes,
+update it there or set a `SITE_URL` environment variable in Netlify.
+
 ## Updating content
 
 Everything editable lives in `src/data/content.js`:

@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react'
 import Form from '../components/Form'
 import PageHero from '../components/PageHero'
 import SectionTitle from '../components/SectionTitle'
+import usePageMeta from '../utils/usePageMeta'
 
 // Conditions as listed in Article 2 of the Constitution
 const requirements = [
@@ -26,6 +27,10 @@ const faqs = [
 ]
 
 export default function Membership() {
+  usePageMeta(
+    'Membership',
+    'How to join UCFCA: conditions for membership, fees and how to register your interest.',
+  )
   return (
     <>
       <PageHero

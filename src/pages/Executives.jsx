@@ -1,8 +1,10 @@
 import LeaderCard from '../components/LeaderCard'
 import PageHero from '../components/PageHero'
 import { executives } from '../data/content'
+import usePageMeta from '../utils/usePageMeta'
 
 export default function Executives() {
+  usePageMeta('Executive Council', 'Meet the officers of the UCFCA Executive Council.')
   return (
     <>
       <PageHero

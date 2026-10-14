@@ -3,10 +3,12 @@ import Icon from '../components/Icon'
 import PageHero from '../components/PageHero'
 import { projects } from '../data/content'
 import NotFound from './NotFound'
+import usePageMeta from '../utils/usePageMeta'
 
 export default function ProjectDetail() {
   const { slug } = useParams()
   const p = projects.find((x) => x.slug === slug)
+  usePageMeta(p ? p.name : 'Page not found', p?.description)
   if (!p) return <NotFound />
 
   return (

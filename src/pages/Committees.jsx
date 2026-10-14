@@ -1,8 +1,13 @@
 import { UsersRound } from 'lucide-react'
 import PageHero from '../components/PageHero'
 import { committees } from '../data/content'
+import usePageMeta from '../utils/usePageMeta'
 
 export default function Committees() {
+  usePageMeta(
+    'Committees',
+    'The UCFCA standing committees: Events & Social Media, Investment & Empowerment, and Health.',
+  )
   return (
     <>
       <PageHero eyebrow="How we work" title="Standing committees." />

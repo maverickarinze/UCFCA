@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, HandHeart, Heart, ShieldCheck } from 'lucide-react'
 import PageHero from '../components/PageHero'
+import usePageMeta from '../utils/usePageMeta'
 
 const values = [
   { icon: Heart, name: 'Love', text: 'We nurture genuine friendship and care for one another.' },
@@ -21,6 +22,10 @@ const achievements = [
 ]
 
 export default function About() {
+  usePageMeta(
+    'About',
+    'Who UCFCA is: a club of friends in Abuja built on Love, Integrity and Service, and what it has achieved so far.',
+  )
   return (
     <>
       <PageHero

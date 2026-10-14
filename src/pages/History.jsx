@@ -1,4 +1,5 @@
 import PageHero from '../components/PageHero'
+import usePageMeta from '../utils/usePageMeta'
 
 const foundingFriends = [
   'Otunba Babatunde Joseph',
@@ -23,6 +24,10 @@ const earlyActivities = [
 ]
 
 export default function History() {
+  usePageMeta(
+    'Our history',
+    'How UCFCA grew from six founding friends in 2023 to more than 50 registered members.',
+  )
   return (
     <>
       <PageHero eyebrow="Our history" title="From six friends to a growing community." />

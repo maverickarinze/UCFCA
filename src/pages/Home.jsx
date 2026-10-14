@@ -8,8 +8,10 @@ import ProjectGrid from '../components/ProjectGrid'
 import SectionTitle from '../components/SectionTitle'
 import { events, executives, stats } from '../data/content'
 import { splitEvents } from '../utils/dates'
+import usePageMeta from '../utils/usePageMeta'
 
 export default function Home() {
+  usePageMeta()
   const nextEvent = splitEvents(events).upcoming[0]
   return (
     <>
