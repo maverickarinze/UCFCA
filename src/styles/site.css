@@ -87,10 +87,6 @@ nav a:hover {
   margin: 15px 0 22px;
   max-width: 760px;
 }
-.hero h1 em {
-  color: var(--orange);
-  font-weight: inherit;
-}
 .lead {
   font-size: 21px;
   color: var(--muted);

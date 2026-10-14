@@ -46,6 +46,52 @@
   margin: 0;
 }
 
+/* Social links */
+.social-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+.social-links a {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff0e1;
+  color: var(--orange-ink);
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.social-links a:hover {
+  background: var(--orange-ink);
+  color: #fff;
+}
+.social-links svg {
+  width: 20px;
+  height: 20px;
+}
+footer .social-links {
+  margin-top: 14px;
+}
+/* Beat the footer's generic link rule (block + vertical margin). */
+footer .social-links a {
+  display: grid;
+  margin: 0;
+}
+.social-links.on-dark a {
+  background: #2c2925;
+  color: #f4a35a;
+}
+.social-links.on-dark a:hover {
+  background: var(--orange-on-dark);
+  color: #1b1917;
+}
+
 /* Events */
 .card-list {
   display: grid;

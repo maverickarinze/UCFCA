@@ -4,7 +4,16 @@ export const contact = {
     { label: '+234 814 292 9035', href: 'tel:+2348142929035' },
     { label: '+234 703 331 7835', href: 'tel:+2347033317835' },
   ],
-  facebook: 'https://www.facebook.com/share/1AfQ6PjTn7/?mibextid=wwXIfr',
+  // Social pages; any with an empty url are hidden.
+  socials: [
+    { name: 'TikTok', icon: 'tiktok', url: 'https://www.tiktok.com/@ucfcabj' },
+    { name: 'YouTube', icon: 'youtube', url: 'https://www.youtube.com/@UCFCAbj' },
+    {
+      name: 'Facebook',
+      icon: 'facebook',
+      url: 'https://www.facebook.com/share/1AfQ6PjTn7/?mibextid=wwXIfr',
+    },
+  ],
 }
 
 export const bank = {

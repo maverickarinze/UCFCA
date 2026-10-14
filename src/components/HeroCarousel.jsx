@@ -84,10 +84,10 @@ export default function HeroCarousel() {
         </div>
       </div>
       <div className="hero-copy">
-        <p className="eyebrow">Ultimate Clique of Friends Club Abuja</p>
-        <h1>
+        <h1>Ultimate Clique of Friends Club Abuja</h1>
+        <p className="hero-tagline">
           Friendship that <em>moves</em> communities forward.
-        </h1>
+        </p>
         <p className="lead">Friends for Life — united by Love, Integrity and Service.</p>
         <div className="actions">
           <Link className="button" to="/membership">

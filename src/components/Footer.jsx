@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Brand from './Brand'
 import ContactLinks from './ContactLinks'
+import SocialLinks from './SocialLinks'
 
 export default function Footer() {
   return (
@@ -24,7 +25,8 @@ export default function Footer() {
       </div>
       <div>
         <h2>Contact</h2>
-        <ContactLinks facebook />
+        <ContactLinks />
+        <SocialLinks className="on-dark" />
       </div>
       <div className="copyright">
         © {new Date().getFullYear()} UCFCA. <span>Love · Integrity · Service</span>

@@ -1,5 +1,6 @@
 import { CalendarDays, Mail, Phone } from 'lucide-react'
 import Form from '../components/Form'
+import SocialLinks from '../components/SocialLinks'
 import PageHero from '../components/PageHero'
 import { contact, meetings } from '../data/content'
 import usePageMeta from '../utils/usePageMeta'
@@ -37,9 +38,8 @@ export default function Contact() {
             <CalendarDays />
             <p>{meetings}</p>
           </div>
-          <a className="text-link" href={contact.facebook} target="_blank" rel="noreferrer">
-            Follow us on Facebook
-          </a>
+          <h3 className="subheading">Follow us</h3>
+          <SocialLinks />
         </div>
         <Form
           title="Send us a message"
