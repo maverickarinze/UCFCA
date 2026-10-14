@@ -52,7 +52,6 @@ nav a:hover {
   background: var(--orange-ink);
   color: white !important;
   padding: 11px 17px;
-  border-radius: 3px;
 }
 .menu {
   display: none;
@@ -118,11 +117,14 @@ nav a:hover {
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  padding: 35px max(7vw, 24px);
+  padding: 18px var(--gutter);
   background: var(--orange-ink);
   color: #fff;
 }
 .stats div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
   padding: 0 28px;
   border-right: 1px solid rgba(255, 255, 255, 0.4);
 }
@@ -133,8 +135,7 @@ nav a:hover {
   border: 0;
 }
 .stats strong {
-  display: block;
-  font: 700 41px var(--serif);
+  font: 700 30px/1.2 var(--serif);
 }
 .stats span {
   font-size: 13px;
@@ -414,7 +415,7 @@ nav a:hover {
 .committee-grid article {
   padding: 30px;
   background: #fff;
-  border-top: 4px solid var(--orange);
+  border: 1px solid var(--line);
 }
 .committee-grid svg {
   color: var(--orange);
@@ -565,6 +566,31 @@ nav a:hover {
   min-height: 50vh;
   padding: clamp(64px, 10vw, 110px) var(--gutter);
 }
+/* Shape: all rounded corners live here (radii set in base.css). */
+.button,
+.nav-donate,
+.account button,
+.form input,
+.form textarea,
+.avatar,
+.photo-grid img {
+  border-radius: var(--radius-control);
+}
+.project-card,
+.leader,
+.committee-grid article,
+.event-card,
+.form,
+.bank,
+.empty,
+.faq details,
+.value-list,
+.pdf-reader object {
+  border-radius: var(--radius-card);
+}
+.value-list {
+  overflow: hidden;
+}
 @media (max-width: 760px) {
   header {
     height: 68px;
@@ -595,14 +621,16 @@ nav a:hover {
   }
   .stats {
     grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
+    gap: 14px;
   }
   .stats div {
+    flex-direction: column;
+    gap: 0;
     padding: 0;
     border: 0;
   }
   .stats strong {
-    font-size: 34px;
+    font-size: 26px;
   }
   .split,
   .two-col,

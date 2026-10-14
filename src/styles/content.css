@@ -55,9 +55,17 @@
 .event-card {
   background: #fff;
   border: 1px solid var(--line);
-  border-top: 4px solid var(--orange);
   padding: 26px;
   text-align: left;
+}
+.event-card::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--orange);
+  margin-bottom: 16px;
 }
 .event-card h3 {
   font: 700 24px/1.2 var(--serif);
