@@ -1,25 +1,16 @@
-import { useEffect } from 'react'
 import { Link, Navigate, NavLink, Route, Routes } from 'react-router-dom'
 import { LogOut } from 'lucide-react'
 import Brand from '../components/Brand'
 import { supabase } from '../lib/supabase'
+import useNoIndex from '../utils/useNoIndex'
 import usePageMeta from '../utils/usePageMeta'
 import Dashboard from './Dashboard'
 import Login from './Login'
+import Meeting from './Meeting'
+import Meetings from './Meetings'
 import Members from './Members'
 import useOfficer from './useOfficer'
 import './admin.css'
-
-// Keep the private area out of search results.
-function useNoIndex() {
-  useEffect(() => {
-    const tag = document.createElement('meta')
-    tag.name = 'robots'
-    tag.content = 'noindex, nofollow'
-    document.head.append(tag)
-    return () => tag.remove()
-  }, [])
-}
 
 function Shell({ officer, children }) {
   return (
@@ -33,6 +24,7 @@ function Shell({ officer, children }) {
             <NavLink to="/admin" end>
               Overview
             </NavLink>
+            <NavLink to="/admin/meetings">Meetings</NavLink>
             <NavLink to="/admin/members">Members</NavLink>
           </nav>
         )}
@@ -86,11 +78,14 @@ export default function AdminApp() {
       </Shell>
     )
 
+  const officer = { ...state.officer, user_id: state.session.user.id }
   return (
-    <Shell officer={state.officer}>
+    <Shell officer={officer}>
       <Routes>
-        <Route index element={<Dashboard officer={state.officer} />} />
-        <Route path="members" element={<Members officer={state.officer} />} />
+        <Route index element={<Dashboard officer={officer} />} />
+        <Route path="meetings" element={<Meetings officer={officer} />} />
+        <Route path="meetings/:id" element={<Meeting officer={officer} />} />
+        <Route path="members" element={<Members officer={officer} />} />
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Routes>
     </Shell>

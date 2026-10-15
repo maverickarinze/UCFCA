@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { CaseSensitive, FileUp, Pencil, Plus, Search } from 'lucide-react'
+import { CaseSensitive, FileUp, KeyRound, Link2, Pencil, Plus, Search } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { formatDate } from '../utils/dates'
 import { normaliseEmail, normalisePhone, parseMemberList } from './memberImport'
 import { tidyName } from './names'
+import { BulkSetupLinks, SetupLinkPanel } from './SetupLinks'
 
 const COLUMNS = 'id, full_name, email, phone, address, joined_on, active'
 
@@ -252,14 +253,22 @@ export default function Members({ officer }) {
   const [loadError, setLoadError] = useState('')
   const [query, setQuery] = useState('')
   const [showInactive, setShowInactive] = useState(false)
-  const [mode, setMode] = useState(null) // null | 'add' | 'import' | member id being edited
+  // null | 'add' | 'import' | 'tidy' | 'links' | <member id> (editing) | 'link:<member id>'
+  const [mode, setMode] = useState(null)
   const [notice, setNotice] = useState('')
+  const [access, setAccess] = useState({}) // member id -> { has_pin, link_pending }
+
+  const loadAccess = useCallback(async () => {
+    const { data } = await supabase.rpc('officer_member_access')
+    if (data) setAccess(Object.fromEntries(data.map((a) => [a.member_id, a])))
+  }, [])
 
   const load = useCallback(async () => {
     const { data, error } = await supabase.from('members').select(COLUMNS).order('full_name')
     if (error) setLoadError(error.message)
     else setMembers(data)
-  }, [])
+    loadAccess()
+  }, [loadAccess])
 
   useEffect(() => {
     // Initial fetch; load() only sets state once the request resolves.
@@ -322,6 +331,9 @@ export default function Members({ officer }) {
             <button className="button ghost" onClick={() => setMode('tidy')}>
               <CaseSensitive aria-hidden="true" /> Tidy names
             </button>
+            <button className="button ghost" onClick={() => setMode('links')}>
+              <Link2 aria-hidden="true" /> Setup links
+            </button>
           </div>
         )}
       </div>
@@ -340,6 +352,21 @@ export default function Members({ officer }) {
           <h2>Add a member</h2>
           <MemberForm onSave={addMember} onCancel={() => setMode(null)} />
         </section>
+      )}
+      {mode === 'links' && (
+        <BulkSetupLinks
+          members={existing.filter((m) => m.active && !access[m.id]?.has_pin)}
+          onDone={loadAccess}
+          onClose={() => setMode(null)}
+        />
+      )}
+      {typeof mode === 'string' && mode.startsWith('link:') && (
+        <SetupLinkPanel
+          member={existing.find((m) => `link:${m.id}` === mode)}
+          hasPin={!!access[mode.slice(5)]?.has_pin}
+          onDone={loadAccess}
+          onClose={() => setMode(null)}
+        />
       )}
       {mode === 'tidy' && (
         <TidyNamesPanel
@@ -407,6 +434,24 @@ export default function Members({ officer }) {
               <div>
                 <strong>{m.full_name}</strong>
                 {!m.active && <span className="admin-badge">Inactive</span>}
+                {m.active && access[m.id] && (
+                  <span
+                    className={
+                      'admin-badge ' +
+                      (access[m.id].has_pin
+                        ? 'is-ok'
+                        : access[m.id].link_pending
+                          ? 'is-pending'
+                          : '')
+                    }
+                  >
+                    {access[m.id].has_pin
+                      ? 'PIN set'
+                      : access[m.id].link_pending
+                        ? 'Link sent'
+                        : 'Not set up'}
+                  </span>
+                )}
                 <span className="admin-muted">
                   {[m.email, m.phone, m.joined_on && `Joined ${formatDate(m.joined_on)}`]
                     .filter(Boolean)
@@ -419,6 +464,12 @@ export default function Members({ officer }) {
                   <button className="admin-link-button" onClick={() => setMode(m.id)}>
                     <Pencil aria-hidden="true" /> Edit
                   </button>
+                  {m.active && (
+                    <button className="admin-link-button" onClick={() => setMode(`link:${m.id}`)}>
+                      <KeyRound aria-hidden="true" />{' '}
+                      {access[m.id]?.has_pin ? 'Reset PIN' : 'Setup link'}
+                    </button>
+                  )}
                   <button className="admin-link-button" onClick={() => toggleActive(m)}>
                     {m.active ? 'Deactivate' : 'Reactivate'}
                   </button>

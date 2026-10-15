@@ -387,3 +387,230 @@ a.admin-card:hover {
     grid-template-columns: 1fr;
   }
 }
+
+/* Meetings */
+.admin-subtitle {
+  font: 700 22px var(--serif);
+  margin: 28px 0 10px;
+}
+.admin-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--orange-ink);
+  margin-bottom: 12px;
+}
+.admin-back svg {
+  width: 16px;
+}
+.admin-title-row .button svg {
+  width: 18px;
+}
+.admin-badge.is-live {
+  background: #e3f1e5;
+  color: #22602c;
+}
+.admin-badge.is-ok {
+  background: #e3f1e5;
+  color: #22602c;
+}
+.admin-badge.is-pending {
+  background: #fff0e1;
+  color: #8a3d06;
+}
+.admin-tally {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 20px 0 16px;
+}
+.admin-tally div {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.admin-tally strong {
+  display: block;
+  font: 700 26px var(--serif);
+  color: var(--ink);
+}
+.admin-segmented {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  overflow: hidden;
+  background: #fff;
+}
+.admin-segmented button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 0;
+  background: none;
+  font: 600 14px var(--sans);
+  color: #4d4a45;
+  cursor: pointer;
+}
+.admin-segmented button + button {
+  border-left: 1px solid var(--line);
+}
+.admin-segmented button[aria-pressed='true'] {
+  background: var(--orange-ink);
+  color: #fff;
+}
+.admin-status {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #eee9e2;
+  color: #5c5852;
+}
+.admin-status.is-present {
+  background: #e3f1e5;
+  color: #22602c;
+}
+.admin-status.is-late {
+  background: #fff0e1;
+  color: #8a3d06;
+}
+.admin-status.is-excused {
+  background: #e8eef7;
+  color: #2d4a75;
+}
+.admin-select {
+  min-height: 40px;
+  border: 1px solid #cfc7be;
+  border-radius: var(--radius-control);
+  padding: 0 10px;
+  font: 500 14px var(--sans);
+  background: #fff;
+}
+.admin-member-form select {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  min-height: 42px;
+  border: 1px solid #cfc7be;
+  border-radius: var(--radius-control);
+  padding: 0 10px;
+  font: inherit;
+  background: #fff;
+}
+.admin-danger {
+  margin-top: 24px;
+  color: #a8321c;
+}
+.admin-link-box {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 13px;
+  background: #f6f2ec;
+  border-radius: var(--radius-control);
+  padding: 10px 12px;
+  overflow-wrap: anywhere;
+  margin: 8px 0;
+}
+.admin-list-compact li {
+  padding: 10px 14px;
+}
+
+/* Full-screen check-in display */
+.checkin-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  background: #15120f;
+  color: #fff;
+  text-align: center;
+}
+.checkin-screen h1 {
+  font: 700 clamp(28px, 4vw, 48px) var(--serif);
+  margin: 0;
+}
+.checkin-eyebrow {
+  color: var(--orange-on-dark);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0;
+}
+.checkin-qr {
+  width: min(70vh, 80vw);
+  aspect-ratio: 1;
+  background: #fff;
+  border-radius: var(--radius-card);
+  padding: 14px;
+  margin-top: 8px;
+}
+.checkin-qr img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+.checkin-timer {
+  width: min(70vh, 80vw);
+  height: 6px;
+  background: #3a332d;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.checkin-timer span {
+  display: block;
+  height: 100%;
+  background: var(--orange);
+  transition: width 0.25s linear;
+}
+.checkin-note {
+  color: #d6cfca;
+  margin: 0;
+}
+.checkin-count {
+  font-size: 18px;
+  margin: 6px 0 0;
+}
+.checkin-count strong {
+  font: 700 28px var(--serif);
+  color: var(--orange-on-dark);
+}
+.checkin-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff55;
+  border-radius: 50%;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .admin-tally {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .admin-segmented {
+    width: 100%;
+  }
+  .admin-segmented button {
+    flex: 1;
+    padding: 0 6px;
+  }
+}
+.admin-muted .admin-badge {
+  margin-left: 8px;
+}

@@ -19,6 +19,8 @@ import Projects from './pages/Projects'
 
 // Officer area loads separately so the public site doesn't carry its code.
 const AdminApp = lazy(() => import('./admin/AdminApp'))
+// Member check-in pages: also separate, and light enough for phones on mobile data.
+const MemberApp = lazy(() => import('./member/MemberApp'))
 
 export default function App() {
   return (
@@ -31,6 +33,17 @@ export default function App() {
           </Suspense>
         }
       />
+      {['checkin', 'setup', 'me'].map((page) => (
+        <Route
+          key={page}
+          path={page}
+          element={
+            <Suspense fallback={null}>
+              <MemberApp page={page} />
+            </Suspense>
+          }
+        />
+      ))}
       <Route element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />

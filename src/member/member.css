@@ -1,0 +1,163 @@
+/* Member attendance pages: phone-first, one card per screen. */
+.member {
+  min-height: 100vh;
+  background: var(--paper);
+}
+.member-header {
+  height: auto;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px var(--gutter);
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+.member-main {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 28px 16px 56px;
+}
+.member-card h1 {
+  font: 700 28px / 1.15 var(--serif);
+  margin: 0 0 8px;
+}
+.member-card.form label input {
+  font-size: 18px;
+}
+.member-card input[inputmode='numeric'] {
+  letter-spacing: 0.5em;
+}
+.member-muted {
+  color: var(--muted);
+  margin: 0 0 4px;
+}
+.member-small {
+  font-size: 13px;
+  margin-top: 16px;
+}
+.member-loading {
+  text-align: center;
+  padding: 48px 0;
+  font: 500 17px var(--sans);
+  color: var(--muted);
+}
+
+/* Result screens (checked in, late, errors) */
+.member-result {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 32px 24px;
+  text-align: center;
+}
+.member-result > svg {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 12px;
+}
+.member-result.is-success > svg {
+  color: #2f7a3a;
+}
+.member-result.is-late > svg {
+  color: var(--orange-ink);
+}
+.member-result.is-error > svg {
+  color: #a8321c;
+}
+.member-result p {
+  margin: 0 0 6px;
+}
+.member-result .button {
+  margin-top: 18px;
+}
+.member-big {
+  font: 700 20px var(--serif);
+}
+
+/* My attendance */
+.member-record {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 24px 20px;
+}
+.member-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 18px 0;
+}
+.member-stats div {
+  background: #fff0e1;
+  border-radius: var(--radius-control);
+  padding: 14px;
+}
+.member-stats strong {
+  display: block;
+  font: 700 28px var(--serif);
+  color: var(--orange-ink);
+}
+.member-stats span {
+  font-size: 13px;
+  color: #5c4636;
+}
+.member-meetings {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.member-meetings li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.member-meetings strong,
+.member-meetings span.member-muted {
+  display: block;
+  margin: 0;
+}
+.member-meetings span.member-muted {
+  font-size: 13px;
+}
+.member-status {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.member-status.is-present {
+  background: #e3f1e5;
+  color: #22602c;
+}
+.member-status.is-late {
+  background: #fff0e1;
+  color: #8a3d06;
+}
+.member-status.is-excused {
+  background: #e8eef7;
+  color: #2d4a75;
+}
+.member-status.is-absent {
+  background: #f8e6e2;
+  color: #8f2a17;
+}
+.member-status.is-open {
+  background: #eee9e2;
+  color: #5c5852;
+}
+.member-signout {
+  margin-top: 18px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: #fff;
+  font: 600 14px var(--sans);
+  color: var(--orange-ink);
+  cursor: pointer;
+}

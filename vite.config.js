@@ -37,7 +37,7 @@ function siteFiles() {
       this.emitFile({
         type: 'asset',
         fileName: 'robots.txt',
-        source: `User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: ${SITE_URL}/sitemap.xml\n`,
+        source: `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /checkin\nDisallow: /setup\nDisallow: /me\n\nSitemap: ${SITE_URL}/sitemap.xml\n`,
       })
     },
   }
