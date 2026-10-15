@@ -238,7 +238,7 @@ a.admin-card:hover {
 /* Member form */
 .admin-member-form {
   display: grid;
-  grid-template-columns: 2fr 1.2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
   align-items: end;
 }
@@ -249,6 +249,7 @@ a.admin-card:hover {
 .admin-member-form input {
   margin-top: 5px;
 }
+.admin-member-form .admin-span,
 .admin-member-form .admin-form-actions,
 .admin-member-form .form-status {
   grid-column: 1 / -1;
@@ -318,6 +319,9 @@ a.admin-card:hover {
   flex-wrap: wrap;
   align-items: baseline;
   gap: 4px 10px;
+}
+.admin-address {
+  flex-basis: 100%;
 }
 .admin-list li.is-inactive strong {
   color: var(--muted);

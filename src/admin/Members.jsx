@@ -2,9 +2,16 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { FileUp, Pencil, Plus, Search } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { formatDate } from '../utils/dates'
-import { normalisePhone, parseMemberList } from './memberImport'
+import { normaliseEmail, normalisePhone, parseMemberList } from './memberImport'
 
-const COLUMNS = 'id, full_name, phone, joined_on, active'
+const COLUMNS = 'id, full_name, email, phone, address, joined_on, active'
+
+// Turns database errors into something an officer can act on.
+function describeError(error) {
+  if (error.code === '23505' && error.message.includes('members_email_key'))
+    return 'Another member already uses that email address.'
+  return error.message
+}
 
 function MemberForm({ member, onSave, onCancel }) {
   const [saving, setSaving] = useState(false)
@@ -16,7 +23,9 @@ function MemberForm({ member, onSave, onCancel }) {
     setSaving(true)
     const result = await onSave({
       full_name: data.full_name.trim(),
+      email: normaliseEmail(data.email).value,
       phone: data.phone.trim() ? normalisePhone(data.phone) : null,
+      address: data.address.trim() || null,
       joined_on: data.joined_on || null,
     })
     setSaving(false)
@@ -30,12 +39,20 @@ function MemberForm({ member, onSave, onCancel }) {
         <input name="full_name" defaultValue={member?.full_name} required autoFocus />
       </label>
       <label>
-        Phone
+        Email
+        <input name="email" type="email" defaultValue={member?.email ?? ''} />
+      </label>
+      <label>
+        Phone number
         <input name="phone" type="tel" defaultValue={member?.phone ?? ''} />
       </label>
       <label>
-        Date joined
+        Date joined <span className="optional">(optional)</span>
         <input name="joined_on" type="date" defaultValue={member?.joined_on ?? ''} />
+      </label>
+      <label className="admin-span">
+        Address
+        <input name="address" defaultValue={member?.address ?? ''} />
       </label>
       <div className="admin-form-actions">
         <button className="button" type="submit" disabled={saving}>
@@ -50,11 +67,11 @@ function MemberForm({ member, onSave, onCancel }) {
   )
 }
 
-function ImportPanel({ existingNames, onImported, onClose }) {
+function ImportPanel({ existing, onImported, onClose }) {
   const [text, setText] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
-  const rows = useMemo(() => parseMemberList(text, existingNames), [text, existingNames])
+  const { rows } = useMemo(() => parseMemberList(text, existing), [text, existing])
   const ready = rows.filter((r) => !r.error && !r.duplicate)
   const problems = rows.filter((r) => r.error)
   const duplicates = rows.filter((r) => r.duplicate)
@@ -67,11 +84,17 @@ function ImportPanel({ existingNames, onImported, onClose }) {
   async function handleImport() {
     setSaving(true)
     setError('')
-    const { error } = await supabase
-      .from('members')
-      .insert(ready.map(({ full_name, phone, joined_on }) => ({ full_name, phone, joined_on })))
+    const { error } = await supabase.from('members').insert(
+      ready.map(({ full_name, email, phone, address, joined_on }) => ({
+        full_name,
+        email,
+        phone,
+        address,
+        joined_on,
+      })),
+    )
     setSaving(false)
-    if (error) setError(error.message)
+    if (error) setError(describeError(error))
     else onImported(ready.length)
   }
 
@@ -79,15 +102,17 @@ function ImportPanel({ existingNames, onImported, onClose }) {
     <section className="admin-panel">
       <h2>Import members</h2>
       <p className="admin-muted">
-        Paste rows copied from a spreadsheet, or upload a CSV file. Columns, in this order:{' '}
-        <strong>full name, phone, date joined</strong> (DD/MM/YYYY). A header row is skipped
-        automatically.
+        Copy your member sheet <strong>including its header row</strong> (Name, Email, Address,
+        Phone Number) and paste it below, or upload it as a CSV file. Columns can be in any order; a
+        Date Joined column (DD/MM/YYYY) is optional.
       </p>
       <textarea
         rows="6"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder={'Ada Obi, 08031234567, 10/03/2024\nChidi Okafor, 08020001111, 02/06/2025'}
+        placeholder={
+          'Name\tEmail\tAddress\tPhone Number\nAda Obi\tada@example.com\tWuse 2, Abuja\t08031234567'
+        }
         aria-label="Member rows"
       />
       <label className="admin-file">
@@ -108,8 +133,9 @@ function ImportPanel({ existingNames, onImported, onClose }) {
                 <tr>
                   <th>Line</th>
                   <th>Name</th>
+                  <th>Email</th>
                   <th>Phone</th>
-                  <th>Joined</th>
+                  <th>Address</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -118,8 +144,9 @@ function ImportPanel({ existingNames, onImported, onClose }) {
                   <tr key={r.line} className={r.error ? 'is-error' : r.duplicate ? 'is-muted' : ''}>
                     <td>{r.line}</td>
                     <td>{r.full_name || '—'}</td>
+                    <td>{r.email || '—'}</td>
                     <td>{r.phone || '—'}</td>
-                    <td>{r.joined_on ? formatDate(r.joined_on) : '—'}</td>
+                    <td>{r.address || '—'}</td>
                     <td>{r.error ?? (r.duplicate ? 'Already listed' : 'Ready')}</td>
                   </tr>
                 ))}
@@ -165,19 +192,20 @@ export default function Members({ officer }) {
     load()
   }, [load])
 
-  const existingNames = useMemo(() => (members ?? []).map((m) => m.full_name), [members])
+  const existing = useMemo(() => members ?? [], [members])
   const visible = (members ?? []).filter(
     (m) =>
       (showInactive || m.active) &&
       (!query ||
         m.full_name.toLowerCase().includes(query.toLowerCase()) ||
+        m.email?.includes(query.toLowerCase()) ||
         m.phone?.includes(query)),
   )
   const activeCount = (members ?? []).filter((m) => m.active).length
 
   async function addMember(values) {
     const { error } = await supabase.from('members').insert(values)
-    if (error) return { error: error.message }
+    if (error) return { error: describeError(error) }
     setMode(null)
     setNotice(`${values.full_name} added.`)
     load()
@@ -185,7 +213,7 @@ export default function Members({ officer }) {
 
   async function updateMember(id, values) {
     const { error } = await supabase.from('members').update(values).eq('id', id)
-    if (error) return { error: error.message }
+    if (error) return { error: describeError(error) }
     setMode(null)
     setNotice('Changes saved.')
     load()
@@ -237,7 +265,7 @@ export default function Members({ officer }) {
       )}
       {mode === 'import' && (
         <ImportPanel
-          existingNames={existingNames}
+          existing={existing}
           onClose={() => setMode(null)}
           onImported={(n) => {
             setMode(null)
@@ -252,7 +280,7 @@ export default function Members({ officer }) {
           <Search aria-hidden="true" />
           <input
             type="search"
-            placeholder="Search by name or phone"
+            placeholder="Search by name, email or phone"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             aria-label="Search members"
@@ -291,10 +319,11 @@ export default function Members({ officer }) {
                 <strong>{m.full_name}</strong>
                 {!m.active && <span className="admin-badge">Inactive</span>}
                 <span className="admin-muted">
-                  {[m.phone, m.joined_on && `Joined ${formatDate(m.joined_on)}`]
+                  {[m.email, m.phone, m.joined_on && `Joined ${formatDate(m.joined_on)}`]
                     .filter(Boolean)
-                    .join(' · ') || 'No details yet'}
+                    .join(' · ') || 'No contact details yet'}
                 </span>
+                {m.address && <span className="admin-muted admin-address">{m.address}</span>}
               </div>
               {canEdit && (
                 <div className="admin-row-actions">
