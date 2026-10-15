@@ -9,6 +9,7 @@ import Login from './Login'
 import Meeting from './Meeting'
 import Meetings from './Meetings'
 import Members from './Members'
+import Reports from './Reports'
 import useOfficer from './useOfficer'
 import './admin.css'
 
@@ -26,6 +27,7 @@ function Shell({ officer, children }) {
             </NavLink>
             <NavLink to="/admin/meetings">Meetings</NavLink>
             <NavLink to="/admin/members">Members</NavLink>
+            <NavLink to="/admin/reports">Reports</NavLink>
           </nav>
         )}
         {officer && (
@@ -86,6 +88,7 @@ export default function AdminApp() {
         <Route path="meetings" element={<Meetings officer={officer} />} />
         <Route path="meetings/:id" element={<Meeting officer={officer} />} />
         <Route path="members" element={<Members officer={officer} />} />
+        <Route path="reports" element={<Reports />} />
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Routes>
     </Shell>

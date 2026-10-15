@@ -683,3 +683,61 @@ a.admin-card:hover {
 .button.admin-button-danger:hover {
   background: #8a2814;
 }
+
+/* Reports */
+.admin-report-section {
+  margin-top: 32px;
+}
+.admin-report-section .admin-subtitle {
+  margin: 0 0 10px;
+}
+.admin-report-section .admin-title-row {
+  margin-bottom: 10px;
+}
+.admin-inline-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.admin-search-small {
+  flex: 0 1 280px;
+}
+.admin-report-table {
+  max-height: none;
+  background: #fff;
+}
+.admin-report-table td:first-child {
+  white-space: normal;
+  min-width: 160px;
+}
+.admin-report-table .admin-badge {
+  margin-left: 8px;
+}
+.admin-report-table a {
+  color: var(--orange-ink);
+  font-weight: 600;
+}
+.admin-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  color: inherit;
+}
+.admin-sort svg {
+  width: 14px;
+}
+.admin-status.is-absent {
+  background: #f8e6e2;
+  color: #8f2a17;
+}
+.admin-report-section .button svg {
+  width: 16px;
+}
