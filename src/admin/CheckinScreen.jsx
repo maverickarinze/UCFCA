@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { X } from 'lucide-react'
 import QRCode from 'qrcode'
 import { supabase } from '../lib/supabase'
+import { pauseIdleSignOut } from './idle'
 import { formatTime } from '../lib/time'
 
 // Full-screen rotating QR code for members to scan. Keeps the screen awake while open.
@@ -53,6 +54,9 @@ export default function CheckinScreen({ meeting, checkedIn, expected, onClose })
     const url = `${window.location.origin}/checkin?m=${meeting.id}&c=${code.code}`
     QRCode.toDataURL(url, { width: 640, margin: 1, errorCorrectionLevel: 'M' }).then(setQr)
   }, [code, meeting.id])
+
+  // Nobody touches the screen during check-in, so don't sign the officer out meanwhile.
+  useEffect(() => pauseIdleSignOut(), [])
 
   // Keep a tablet or laptop from dimming during check-in.
   useEffect(() => {

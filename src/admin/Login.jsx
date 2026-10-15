@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { takeSignOutReason } from './idle'
 
 export default function Login() {
   const [status, setStatus] = useState('idle') // idle | signing-in | error
   const [error, setError] = useState('')
+  const [reason] = useState(takeSignOutReason)
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -25,6 +27,11 @@ export default function Login() {
       <form className="form" onSubmit={handleSubmit}>
         <h1>Officer sign in</h1>
         <p className="admin-muted">For UCFCA officers managing members and attendance.</p>
+        {reason === 'idle' && (
+          <p className="admin-signed-out" role="status">
+            You were signed out after 5 minutes of inactivity. Sign in again to continue.
+          </p>
+        )}
         <label>
           Email address
           <input name="email" type="email" autoComplete="email" required />

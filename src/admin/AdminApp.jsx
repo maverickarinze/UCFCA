@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabase'
 import useNoIndex from '../utils/useNoIndex'
 import usePageMeta from '../utils/usePageMeta'
 import Dashboard from './Dashboard'
+import IdleSignOut from './IdleSignOut'
 import Login from './Login'
 import Meeting from './Meeting'
 import Meetings from './Meetings'
@@ -83,6 +84,7 @@ export default function AdminApp() {
   const officer = { ...state.officer, user_id: state.session.user.id }
   return (
     <Shell officer={officer}>
+      <IdleSignOut />
       <Routes>
         <Route index element={<Dashboard officer={officer} />} />
         <Route path="meetings" element={<Meetings officer={officer} />} />

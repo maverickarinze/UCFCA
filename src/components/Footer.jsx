@@ -29,7 +29,11 @@ export default function Footer() {
         <SocialLinks className="on-dark" />
       </div>
       <div className="copyright">
-        © {new Date().getFullYear()} UCFCA. <span>Love · Integrity · Service</span>
+        © {new Date().getFullYear()} UCFCA.
+        <Link className="officer-login" to="/admin" rel="nofollow">
+          Officer login
+        </Link>
+        <span>Love · Integrity · Service</span>
       </div>
     </footer>
   )
