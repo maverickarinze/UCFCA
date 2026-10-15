@@ -657,3 +657,29 @@ a.admin-card:hover {
 .admin-bulk-bar .button {
   min-height: 40px;
 }
+
+/* Deleting a member */
+.admin-danger-inline {
+  margin-top: 4px;
+  color: #a8321c;
+}
+.admin-danger-inline:hover {
+  background: #fbe9e5;
+}
+.admin-confirm {
+  margin-top: 8px;
+  padding: 14px 16px;
+  background: #fbe9e5;
+  border: 1px solid #f0c8bf;
+  border-radius: var(--radius-control);
+  font-size: 14px;
+}
+.admin-confirm p {
+  margin: 0 0 4px;
+}
+.button.admin-button-danger {
+  background: #a8321c;
+}
+.button.admin-button-danger:hover {
+  background: #8a2814;
+}

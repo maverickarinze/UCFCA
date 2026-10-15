@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { CaseSensitive, FileUp, KeyRound, Link2, Pencil, Plus, Search } from 'lucide-react'
+import { CaseSensitive, FileUp, KeyRound, Link2, Pencil, Plus, Search, Trash2 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { formatDate } from '../utils/dates'
 import { normaliseEmail, normalisePhone, parseMemberList } from './memberImport'
@@ -15,7 +15,76 @@ function describeError(error) {
   return error.message
 }
 
-function MemberForm({ member, onSave, onCancel }) {
+// Asks before permanently deleting a member, saying how much history goes with them.
+function DeleteMember({ member, onDeleted, onDeactivate }) {
+  const [step, setStep] = useState('idle') // idle | confirm | deleting
+  const [records, setRecords] = useState(null)
+  const [error, setError] = useState('')
+
+  async function ask() {
+    setStep('confirm')
+    const { data } = await supabase
+      .from('attendance')
+      .select('meeting_id')
+      .eq('member_id', member.id)
+    setRecords(data?.length ?? 0)
+  }
+
+  async function remove() {
+    setStep('deleting')
+    // Ask for the deleted row back: if access rules block the delete, Supabase
+    // reports success with nothing deleted, and this catches it.
+    const { data, error } = await supabase.from('members').delete().eq('id', member.id).select('id')
+    if (error || !data?.length) {
+      setError(
+        error?.message ??
+          'The database didn’t allow this delete. Only officers who can edit may delete members.',
+      )
+      setStep('confirm')
+    } else onDeleted()
+  }
+
+  if (step === 'idle')
+    return (
+      <button type="button" className="admin-link-button admin-danger-inline" onClick={ask}>
+        <Trash2 aria-hidden="true" /> Delete member
+      </button>
+    )
+
+  return (
+    <div className="admin-confirm" role="alertdialog" aria-label={`Delete ${member.full_name}`}>
+      <p>
+        <strong>Delete {member.full_name} permanently?</strong>{' '}
+        {records === null
+          ? 'Checking their records…'
+          : records
+            ? `This also deletes their ${records} attendance record${records === 1 ? '' : 's'}. To keep their history, deactivate them instead.`
+            : 'They have no attendance records. This can’t be undone.'}
+      </p>
+      <div className="admin-form-actions">
+        <button
+          type="button"
+          className="button admin-button-danger"
+          onClick={remove}
+          disabled={records === null || step === 'deleting'}
+        >
+          {step === 'deleting' ? 'Deleting…' : 'Delete permanently'}
+        </button>
+        {records > 0 && member.active && (
+          <button type="button" className="button ghost" onClick={onDeactivate}>
+            Deactivate instead
+          </button>
+        )}
+        <button type="button" className="button ghost" onClick={() => setStep('idle')}>
+          Keep
+        </button>
+      </div>
+      {error && <p className="form-status error">{error}</p>}
+    </div>
+  )
+}
+
+function MemberForm({ member, onSave, onCancel, onDeleted, onDeactivate }) {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
@@ -65,6 +134,11 @@ function MemberForm({ member, onSave, onCancel }) {
         </button>
       </div>
       {error && <p className="form-status error">{error}</p>}
+      {member && onDeleted && (
+        <div className="admin-span">
+          <DeleteMember member={member} onDeleted={onDeleted} onDeactivate={onDeactivate} />
+        </div>
+      )}
     </form>
   )
 }
@@ -427,6 +501,15 @@ export default function Members({ officer }) {
                 member={m}
                 onSave={(values) => updateMember(m.id, values)}
                 onCancel={() => setMode(null)}
+                onDeleted={() => {
+                  setMode(null)
+                  setNotice(`${m.full_name} deleted.`)
+                  load()
+                }}
+                onDeactivate={() => {
+                  setMode(null)
+                  toggleActive(m)
+                }}
               />
             </li>
           ) : (
