@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
 import About from './pages/About'
@@ -16,9 +17,20 @@ import NotFound from './pages/NotFound'
 import ProjectDetail from './pages/ProjectDetail'
 import Projects from './pages/Projects'
 
+// Officer area loads separately so the public site doesn't carry its code.
+const AdminApp = lazy(() => import('./admin/AdminApp'))
+
 export default function App() {
   return (
     <Routes>
+      <Route
+        path="admin/*"
+        element={
+          <Suspense fallback={null}>
+            <AdminApp />
+          </Suspense>
+        }
+      />
       <Route element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
