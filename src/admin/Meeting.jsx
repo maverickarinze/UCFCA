@@ -19,6 +19,10 @@ export default function Meeting({ officer }) {
   const [filter, setFilter] = useState('all')
   const [query, setQuery] = useState('')
   const [showScreen, setShowScreen] = useState(false)
+  const [selected, setSelected] = useState(() => new Set())
+  const [bulkStatus, setBulkStatus] = useState('excused')
+  const [saving, setSaving] = useState(false)
+  const [notice, setNotice] = useState('')
 
   const loadAttendance = useCallback(async () => {
     const { data } = await supabase
@@ -78,23 +82,56 @@ export default function Meeting({ officer }) {
     return !query || m.full_name.toLowerCase().includes(query.toLowerCase())
   })
 
-  async function setStatus(member, status) {
-    if (!status) {
-      await supabase.from('attendance').delete().match({ meeting_id: id, member_id: member.id })
-    } else {
-      const existing = attendance[member.id]
-      await supabase.from('attendance').upsert({
-        meeting_id: id,
-        member_id: member.id,
-        status,
-        checked_in_at:
-          status === 'excused' ? null : (existing?.checked_in_at ?? new Date().toISOString()),
-        method: 'manual',
-        recorded_by: officer.user_id,
-        updated_at: new Date().toISOString(),
-      })
-    }
-    loadAttendance()
+  // Sets (or clears, when status is '') attendance for several members in one request.
+  async function setStatusFor(memberIds, status) {
+    const now = new Date().toISOString()
+    const { error } = !status
+      ? await supabase.from('attendance').delete().eq('meeting_id', id).in('member_id', memberIds)
+      : await supabase.from('attendance').upsert(
+          memberIds.map((memberId) => ({
+            meeting_id: id,
+            member_id: memberId,
+            status,
+            checked_in_at:
+              status === 'excused' ? null : (attendance[memberId]?.checked_in_at ?? now),
+            method: 'manual',
+            recorded_by: officer.user_id,
+            updated_at: now,
+          })),
+        )
+    await loadAttendance()
+    return error
+  }
+
+  async function applyBulk() {
+    const ids = [...selected]
+    setSaving(true)
+    const error = await setStatusFor(ids, bulkStatus)
+    setSaving(false)
+    if (error) return setNotice(`Couldn’t update: ${error.message}`)
+    const label = bulkStatus ? STATUS_LABELS[bulkStatus] : missingLabel
+    setNotice(`${ids.length} member${ids.length === 1 ? '' : 's'} marked ${label}.`)
+    setSelected(new Set())
+  }
+
+  function toggle(memberId) {
+    setSelected((prev) => {
+      const next = new Set(prev)
+      if (next.has(memberId)) next.delete(memberId)
+      else next.add(memberId)
+      return next
+    })
+  }
+
+  const allShownSelected = visible.length > 0 && visible.every((m) => selected.has(m.id))
+  function toggleAllShown() {
+    setSelected(allShownSelected ? new Set() : new Set(visible.map((m) => m.id)))
+  }
+
+  // Changing the filter or search clears the selection, so hidden rows are never changed by surprise.
+  function changeFilter(value) {
+    setFilter(value)
+    setSelected(new Set())
   }
 
   async function deleteMeeting() {
@@ -151,7 +188,10 @@ export default function Meeting({ officer }) {
             type="search"
             placeholder="Find a member"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value)
+              setSelected(new Set())
+            }}
             aria-label="Find a member"
           />
         </label>
@@ -161,19 +201,38 @@ export default function Meeting({ officer }) {
             ['in', 'Checked in'],
             ['missing', missingLabel],
           ].map(([value, label]) => (
-            <button key={value} aria-pressed={filter === value} onClick={() => setFilter(value)}>
+            <button key={value} aria-pressed={filter === value} onClick={() => changeFilter(value)}>
               {label}
             </button>
           ))}
         </div>
       </div>
 
+      <p className="admin-notice" aria-live="polite">
+        {notice}
+      </p>
+      {canEdit && visible.length > 0 && (
+        <label className="admin-check admin-select-all">
+          <input type="checkbox" checked={allShownSelected} onChange={toggleAllShown} />
+          Select all shown ({visible.length})
+        </label>
+      )}
+
       <ul className="admin-list">
         {visible.map((m) => {
           const a = attendance[m.id]
           return (
-            <li key={m.id}>
+            <li key={m.id} className={selected.has(m.id) ? 'is-selected' : ''}>
               <div>
+                {canEdit && (
+                  <input
+                    type="checkbox"
+                    className="admin-row-check"
+                    checked={selected.has(m.id)}
+                    onChange={() => toggle(m.id)}
+                    aria-label={`Select ${m.full_name}`}
+                  />
+                )}
                 <strong>{m.full_name}</strong>
                 <span className={`admin-status is-${a?.status ?? 'none'}`}>
                   {a ? STATUS_LABELS[a.status] : missingLabel}
@@ -190,7 +249,7 @@ export default function Meeting({ officer }) {
                   <select
                     className="admin-select"
                     value={a?.status ?? ''}
-                    onChange={(e) => setStatus(m, e.target.value)}
+                    onChange={(e) => setStatusFor([m.id], e.target.value)}
                     aria-label={`Attendance for ${m.full_name}`}
                   >
                     <option value="">{missingLabel}</option>
@@ -205,6 +264,31 @@ export default function Meeting({ officer }) {
         })}
       </ul>
       {!visible.length && <p className="admin-muted">No members to show.</p>}
+
+      {canEdit && selected.size > 0 && (
+        <div className="admin-bulk-bar" role="region" aria-label="Update selected members">
+          <strong>{selected.size} selected</strong>
+          <label>
+            Mark as
+            <select
+              className="admin-select"
+              value={bulkStatus}
+              onChange={(e) => setBulkStatus(e.target.value)}
+            >
+              <option value="present">On time</option>
+              <option value="late">Late</option>
+              <option value="excused">Excused</option>
+              <option value="">{missingLabel}</option>
+            </select>
+          </label>
+          <button className="button" onClick={applyBulk} disabled={saving}>
+            {saving ? 'Saving…' : 'Apply'}
+          </button>
+          <button className="admin-link-button" onClick={() => setSelected(new Set())}>
+            Clear selection
+          </button>
+        </div>
+      )}
 
       {canEdit && (
         <button className="admin-link-button admin-danger" onClick={deleteMeeting}>
