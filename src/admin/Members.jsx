@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { FileUp, Pencil, Plus, Search } from 'lucide-react'
+import { CaseSensitive, FileUp, Pencil, Plus, Search } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { formatDate } from '../utils/dates'
 import { normaliseEmail, normalisePhone, parseMemberList } from './memberImport'
+import { tidyName } from './names'
 
 const COLUMNS = 'id, full_name, email, phone, address, joined_on, active'
 
@@ -22,7 +23,7 @@ function MemberForm({ member, onSave, onCancel }) {
     const data = Object.fromEntries(new FormData(e.currentTarget))
     setSaving(true)
     const result = await onSave({
-      full_name: data.full_name.trim(),
+      full_name: tidyName(data.full_name),
       email: normaliseEmail(data.email).value,
       phone: data.phone.trim() ? normalisePhone(data.phone) : null,
       address: data.address.trim() || null,
@@ -171,6 +172,80 @@ function ImportPanel({ existing, onImported, onClose }) {
   )
 }
 
+// Previews capitalisation fixes for existing names, then saves them in one go.
+function TidyNamesPanel({ members, onDone, onClose }) {
+  const changes = members
+    .map((m) => ({ id: m.id, from: m.full_name, to: tidyName(m.full_name) }))
+    .filter((c) => c.to !== c.from)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  async function apply() {
+    setSaving(true)
+    const results = await Promise.all(
+      changes.map((c) => supabase.from('members').update({ full_name: c.to }).eq('id', c.id)),
+    )
+    setSaving(false)
+    const failed = results.filter((r) => r.error).length
+    if (failed) setError(`${failed} name${failed === 1 ? '' : 's'} couldn’t be saved. Try again.`)
+    onDone(changes.length - failed, !failed)
+  }
+
+  return (
+    <section className="admin-panel">
+      <h2>Tidy name capitalisation</h2>
+      {changes.length ? (
+        <>
+          <p className="admin-muted">
+            Names typed in ALL CAPS or all lowercase are changed to normal capitalisation. Nothing
+            is saved until you confirm.
+          </p>
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Current</th>
+                  <th>Becomes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {changes.map((c) => (
+                  <tr key={c.id}>
+                    <td>{c.from}</td>
+                    <td>
+                      <strong>{c.to}</strong>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="admin-form-actions">
+            <button className="button" onClick={apply} disabled={saving}>
+              {saving
+                ? 'Saving…'
+                : `Update ${changes.length} name${changes.length === 1 ? '' : 's'}`}
+            </button>
+            <button className="button ghost" onClick={onClose}>
+              Cancel
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="admin-muted">All names already have normal capitalisation.</p>
+          <div className="admin-form-actions">
+            <button className="button ghost" onClick={onClose}>
+              Close
+            </button>
+          </div>
+        </>
+      )}
+      {error && <p className="form-status error">{error}</p>}
+    </section>
+  )
+}
+
 export default function Members({ officer }) {
   const canEdit = officer.role === 'recorder'
   const [members, setMembers] = useState(null)
@@ -244,6 +319,9 @@ export default function Members({ officer }) {
             <button className="button ghost" onClick={() => setMode('import')}>
               <FileUp aria-hidden="true" /> Import list
             </button>
+            <button className="button ghost" onClick={() => setMode('tidy')}>
+              <CaseSensitive aria-hidden="true" /> Tidy names
+            </button>
           </div>
         )}
       </div>
@@ -262,6 +340,17 @@ export default function Members({ officer }) {
           <h2>Add a member</h2>
           <MemberForm onSave={addMember} onCancel={() => setMode(null)} />
         </section>
+      )}
+      {mode === 'tidy' && (
+        <TidyNamesPanel
+          members={existing}
+          onClose={() => setMode(null)}
+          onDone={(n, allSaved) => {
+            if (allSaved) setMode(null)
+            setNotice(`${n} name${n === 1 ? '' : 's'} updated.`)
+            load()
+          }}
+        />
       )}
       {mode === 'import' && (
         <ImportPanel

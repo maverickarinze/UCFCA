@@ -1,3 +1,5 @@
+import { tidyName } from './names'
+
 // Parses a pasted or uploaded member list (CSV, or tab-separated when copied
 // straight out of Excel/Google Sheets). Columns are matched by their header
 // names, in any order; without a header row the club register's order is used.
@@ -99,7 +101,7 @@ export function parseMemberList(text, existing = []) {
 
     const row = {
       line: i + 1,
-      full_name: value('full_name'),
+      full_name: tidyName(value('full_name')),
       email: null,
       address: null,
       phone: null,

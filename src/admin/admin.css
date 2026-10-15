@@ -303,10 +303,10 @@ a.admin-card:hover {
   display: none;
 }
 .admin-list li {
-  display: flex;
-  flex-wrap: wrap;
+  /* Details on the left, actions pinned right however long the details are. */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 8px 16px;
   padding: 14px 18px;
   border-bottom: 1px solid var(--line);
@@ -319,6 +319,8 @@ a.admin-card:hover {
   flex-wrap: wrap;
   align-items: baseline;
   gap: 4px 10px;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .admin-address {
   flex-basis: 100%;
@@ -342,6 +344,7 @@ a.admin-card:hover {
 }
 .admin-row-actions {
   display: flex;
+  justify-content: flex-end;
   gap: 4px;
 }
 .admin-link-button {
@@ -377,6 +380,10 @@ a.admin-card:hover {
     display: none;
   }
   .admin-member-form {
+    grid-template-columns: 1fr;
+  }
+  /* Phones: not enough width for both columns, so actions go underneath, still right-aligned. */
+  .admin-list li {
     grid-template-columns: 1fr;
   }
 }
